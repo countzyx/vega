@@ -26,20 +26,15 @@ namespace vega11.Mapping {
                 .ForMember(v => v.ContactPhone, opt => opt.MapFrom(vr => vr.Contact.Phone))
                 .ForMember(v => v.Features, opt => opt.Ignore()) // Features need AfterMap processing, so ignore right now.
                 .AfterMap((vr, v) => {
-                    // Remove unselected features.
-                    var removedFeatures = new List<VehicleFeature>();
-                    // Cannot remove features from the collection being iterated; so collect items to remove in a list first.
-                    foreach (var f in v.Features)
-                        if (!vr.Features.Contains(f.FeatureId))
-                            removedFeatures.Add(f);
-                    // Remove the items from the remove list.
+                    // Remove unselected features.                    
+                    var removedFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId));
                     foreach (var f in removedFeatures)
                         v.Features.Remove(f);
                     
                     // Add new features.
-                    foreach (var id in vr.Features)
-                        if (!v.Features.Any(f => f.FeatureId == id))
-                            v.Features.Add(new VehicleFeature { FeatureId = id });
+                    var addedFeatures = vr.Features.Where(id => !v.Features.Any(f => f.FeatureId == id));
+                    foreach (var id in addedFeatures)
+                        v.Features.Add(new VehicleFeature { FeatureId = id });
                 })
             ;
         }
