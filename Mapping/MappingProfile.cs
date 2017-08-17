@@ -27,7 +27,7 @@ namespace vega11.Mapping {
                 .ForMember(v => v.Features, opt => opt.Ignore()) // Features need AfterMap processing, so ignore right now.
                 .AfterMap((vr, v) => {
                     // Remove unselected features.                    
-                    var removedFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId));
+                    var removedFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId)).ToArray();
                     foreach (var f in removedFeatures)
                         v.Features.Remove(f);
                     
