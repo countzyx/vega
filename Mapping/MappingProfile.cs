@@ -32,9 +32,10 @@ namespace vega11.Mapping {
                         v.Features.Remove(f);
                     
                     // Add new features.
-                    var addedFeatures = vr.Features.Where(id => !v.Features.Any(f => f.FeatureId == id));
-                    foreach (var id in addedFeatures)
-                        v.Features.Add(new VehicleFeature { FeatureId = id });
+                    var addedFeatures = vr.Features.Where(id => !v.Features.Any(f => f.FeatureId == id))
+                        .Select(id => new VehicleFeature { FeatureId = id });
+                    foreach (var f in addedFeatures)
+                        v.Features.Add(f);
                 })
             ;
         }
