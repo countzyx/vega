@@ -21,12 +21,6 @@ namespace vega11.Controllers {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             
-            var model = await context.Models.FindAsync(vehicleResource.ModelId);
-            if (model == null) {
-                ModelState.AddModelError("ModelId", "Invalid ModelId.");
-                return BadRequest(ModelState);
-            }
-
             var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
             context.Vehicles.Add(vehicle);
