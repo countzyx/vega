@@ -17,7 +17,7 @@ namespace Vega11.Migrations
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("vega11.Models.Feature", b =>
+            modelBuilder.Entity("vega11.Core.Models.Feature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -31,7 +31,7 @@ namespace Vega11.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("vega11.Models.Make", b =>
+            modelBuilder.Entity("vega11.Core.Models.Make", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -45,7 +45,7 @@ namespace Vega11.Migrations
                     b.ToTable("Makes");
                 });
 
-            modelBuilder.Entity("vega11.Models.Model", b =>
+            modelBuilder.Entity("vega11.Core.Models.Model", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -63,9 +63,9 @@ namespace Vega11.Migrations
                     b.ToTable("Models");
                 });
 
-            modelBuilder.Entity("vega11.Models.Model", b =>
+            modelBuilder.Entity("vega11.Core.Models.Model", b =>
                 {
-                    b.HasOne("vega11.Models.Make", "Make")
+                    b.HasOne("vega11.Core.Models.Make", "Make")
                         .WithMany("Models")
                         .HasForeignKey("MakeId")
                         .OnDelete(DeleteBehavior.Cascade);

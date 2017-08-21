@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using vega11.Controllers.Resources;
-using vega11.Models;
+using vega11.Core.Models;
 
 namespace vega11.Mapping {
     public class MappingProfile : Profile {
