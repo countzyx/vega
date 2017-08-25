@@ -15,4 +15,9 @@ export class VehicleService {
   getMakes() {
     return this.http.get('http://localhost:5000/api/makes').map(res => res.json());
   }
+
+
+  create(vehicle) {
+    return this.http.post('/api/vehicles', vehicle).map(res => res.json());
+  }
 }
