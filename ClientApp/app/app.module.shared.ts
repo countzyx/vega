@@ -1,6 +1,7 @@
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 
 import { VehicleService } from './services/vehicle.service';
 
@@ -23,6 +24,8 @@ export const sharedConfig: NgModule = {
     ],
     imports: [
         FormsModule,
+        ToastrModule.forRoot({positionClass: 'toast-top-right'}),
+        ToastContainerModule.forRoot(),
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'vehicles/new', component: VehicleFormComponent },
