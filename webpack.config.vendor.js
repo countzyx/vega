@@ -31,6 +31,8 @@ module.exports = (env) => {
                 'es6-promise',
                 'event-source-polyfill',
                 'jquery',
+                'ng2-toastr',
+                'ng2-toastr/ng2-toastr.css',
                 'zone.js',
             ]
         },
