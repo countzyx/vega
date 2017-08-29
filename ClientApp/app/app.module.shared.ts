@@ -1,11 +1,7 @@
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-<<<<<<< HEAD
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
-=======
-import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
->>>>>>> 38a971f26e06ae4f77ab7cf42e72ce42395d7523
 
 import { VehicleService } from './services/vehicle.service';
 
@@ -28,12 +24,7 @@ export const sharedConfig: NgModule = {
     ],
     imports: [
         FormsModule,
-<<<<<<< HEAD
         ToastModule.forRoot(),
-=======
-        ToastrModule.forRoot({positionClass: 'toast-top-right'}),
-        ToastContainerModule.forRoot(),
->>>>>>> 38a971f26e06ae4f77ab7cf42e72ce42395d7523
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'vehicles/new', component: VehicleFormComponent },
