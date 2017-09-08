@@ -64,7 +64,7 @@ export class VehicleFormComponent implements OnInit {
       }
     }, err => {
       if (err.status == 404)
-        this.router.navigate(['/home']);
+        this.router.navigate(['/vehicles']);
     });
   }
 
