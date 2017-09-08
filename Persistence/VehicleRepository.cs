@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using vega11.Core;
@@ -24,6 +25,15 @@ namespace vega11.Persistence {
             } else {
                 return await context.Vehicles.FindAsync(id);
             }
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetVehicles() {
+            return await context.Vehicles
+                .Include(v => v.Features)
+                .ThenInclude(vf => vf.Feature)
+                .Include(v => v.Model)
+                .ThenInclude(m => m.Make)
+                .ToListAsync();
         }
 
 
