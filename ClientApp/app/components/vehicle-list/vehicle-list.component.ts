@@ -14,7 +14,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[];
-  allVehicles: Vehicle[];
   makes: KeyValuePair[];
   filter: any = {};
 
@@ -24,15 +23,14 @@ export class VehicleListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.vehicleService.getVehicles().subscribe(vehicles => this.vehicles = vehicles);
     var sources = [
       this.vehicleService.getMakes(),
-      this.vehicleService.getVehicles()
+      this.vehicleService.getVehicles(this.filter)
     ];
 
     Observable.forkJoin(sources).subscribe(data => {
       this.makes = data[0];
-      this.vehicles = this.allVehicles = data[1];
+      this.vehicles = data[1];
     }, err => {
       if (err.status == 404)
         this.router.navigate(['/vehicles']);
@@ -40,12 +38,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   onFilterChange() {
-    var vehicles = this.allVehicles;
-
-    if (this.filter.makeId)
-      vehicles = vehicles.filter(v => v.make.id == this.filter.makeId)
-
-    this.vehicles = vehicles;
+    this.vehicleService.getVehicles(this.filter).subscribe(vehicles => this.vehicles = vehicles);
   }
 
   resetFilter() {

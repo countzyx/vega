@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class VehicleService {
+  vehiclesEndpoint = "http://localhost:5000/api/vehicles/";
 
   constructor(private http: Http) { }
 
@@ -19,23 +20,35 @@ export class VehicleService {
 
 
   create(vehicle: SaveVehicle) {
-    return this.http.post('http://localhost:5000/api/vehicles', vehicle).map(res => res.json());
+    return this.http.post(this.vehiclesEndpoint.slice(0, -1), vehicle).map(res => res.json());
   }
 
 
   update(vehicle: SaveVehicle) {
-    return this.http.put('http://localhost:5000/api/vehicles/' + vehicle.id, vehicle).map(res => res.json());
+    return this.http.put(this.vehiclesEndpoint + vehicle.id, vehicle).map(res => res.json());
   }
 
   getVehicle(id: number) {
-    return this.http.get('http://localhost:5000/api/vehicles/' + id).map(res => res.json());
+    return this.http.get(this.vehiclesEndpoint + id).map(res => res.json());
   }
 
-  getVehicles() {
-    return this.http.get('http://localhost:5000/api/vehicles').map(res => res.json());
+  getVehicles(filter) {
+    return this.http.get(this.vehiclesEndpoint.slice(0, -1) + this.toQueryString(filter)).map(res => res.json());
+  }
+
+  toQueryString(obj) {
+    var parts = [];
+    for (var prop in obj) {
+      var value = obj[prop];
+      if (value != null && value != undefined) {
+        parts.push(encodeURIComponent(prop) + "=" + encodeURIComponent(value));
+      }
+    }
+
+    return "?" + parts.join("&");
   }
   
   delete(id: number) {
-    return this.http.delete('http://localhost:5000/api/vehicles/' + id).map(res => res.json());
+    return this.http.delete(this.vehiclesEndpoint + id).map(res => res.json());
   }  
 }
