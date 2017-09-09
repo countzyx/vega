@@ -15,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[];
   makes: KeyValuePair[];
-  filter: any = {};
+  query: any = {};
 
   constructor(
     private router: Router,
@@ -25,7 +25,7 @@ export class VehicleListComponent implements OnInit {
   ngOnInit() {
     var sources = [
       this.vehicleService.getMakes(),
-      this.vehicleService.getVehicles(this.filter)
+      this.vehicleService.getVehicles(this.query)
     ];
 
     Observable.forkJoin(sources).subscribe(data => {
@@ -37,12 +37,27 @@ export class VehicleListComponent implements OnInit {
     });
   }
 
-  onFilterChange() {
-    this.vehicleService.getVehicles(this.filter).subscribe(vehicles => this.vehicles = vehicles);
+  populateVehicles() {
+    this.vehicleService.getVehicles(this.query).subscribe(vehicles => this.vehicles = vehicles);
   }
 
-  resetFilter() {
-    this.filter = {}
-    this.onFilterChange();
+
+  onQueryChange() {
+    this.populateVehicles();
+  }
+
+  resetQuery() {
+    this.query = {}
+    this.onQueryChange();
+  }
+
+  sortBy(columnName) {
+    if (this.query.sortBy === columnName) {
+      this.query.isSortAscending = !this.query.isSortAscending;
+    } else {
+      this.query.sortBy = columnName;
+      this.query.isSortAscending = true;
+    }
+    this.populateVehicles();
   }
 }
