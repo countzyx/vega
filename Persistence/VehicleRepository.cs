@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using vega11.Core;
@@ -39,9 +41,25 @@ namespace vega11.Persistence {
             if (queryObj.MakeId.HasValue)
                 query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
 
+            Expression<Func<Vehicle, object>> expression;
+            var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>() {
+                ["id"] = v => v.Id,
+                ["make"] = v => v.Model.Make.Name,
+                ["model"] = v => v.Model.Name,
+                ["contactName"] = v => v.ContactName
+            };
+
+            ApplyOrdering(query, queryObj, columnsMap);               
+                    
             return await query.ToListAsync();
         }
 
+        private IQueryable<Vehicle> ApplyOrdering(IQueryable<Vehicle> query, VehicleQuery queryObj, Dictionary<string, Expression<Func<Vehicle, object>>> columnsMap) {
+            if (queryObj.IsSortAscending)
+                return query.OrderBy(columnsMap[queryObj.SortBy]);
+            else
+                return query.OrderByDescending(columnsMap[queryObj.SortBy]);
+        }
 
         public void Add(Vehicle vehicle) {
             context.Vehicles.Add(vehicle);
