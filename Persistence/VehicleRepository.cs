@@ -48,7 +48,9 @@ namespace vega11.Persistence {
                 ["contactName"] = v => v.ContactName
             };
 
-            query = query.ApplyOrdering(queryObj, columnsMap);               
+            query = query.ApplyOrdering(queryObj, columnsMap);   
+
+            query = query.ApplyPaging(queryObj);            
                     
             return await query.ToListAsync();
         }
