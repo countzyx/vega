@@ -1,3 +1,6 @@
+import { CanActivate } from '@angular/router';
+import { AdminAuthGuardService } from './services/admin-auth-guard.service';
+import { AuthGuardService } from './services/auth-guard.service';
 import { AdminComponent } from './components/admin/admin.component';
 import { AuthService } from './services/auth.service';
 import { PhotoService } from './services/photo.service';
@@ -33,16 +36,18 @@ export const sharedConfig: NgModule = {
         ToastyModule.forRoot(),
         RouterModule.forRoot([
             { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
-            { path: 'vehicles/new', component: VehicleFormComponent },
-            { path: 'vehicles/edit/:id', component: VehicleFormComponent },
+            { path: 'vehicles/new', component: VehicleFormComponent, canActivate: [AuthGuardService] },
+            { path: 'vehicles/edit/:id', component: VehicleFormComponent, canActivate: [AuthGuardService] },
             { path: 'vehicles/:id', component: VehicleViewComponent },
             { path: 'vehicles', component: VehicleListComponent },
-            { path: 'admin', component: AdminComponent },
+            { path: 'admin', component: AdminComponent, canActivate: [AdminAuthGuardService] },
             { path: '**', redirectTo: 'vehicles' }
         ])
     ],
     providers: [
         AuthService,
+        AuthGuardService,
+        AdminAuthGuardService,
         VehicleService,
         PhotoService
     ]

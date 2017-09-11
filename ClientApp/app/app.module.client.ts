@@ -1,3 +1,4 @@
+import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { BrowserXhr } from '@angular/http';
 import { AppErrorHandler } from './app.error-handler';
@@ -9,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { sharedConfig } from './app.module.shared';
 import { ProgressService, BrowserXhrWithProgress } from "./services/progress.service";
+import { AdminAuthGuardService } from './services/admin-auth-guard.service';
 
 @NgModule({
     bootstrap: sharedConfig.bootstrap,
@@ -22,10 +24,12 @@ import { ProgressService, BrowserXhrWithProgress } from "./services/progress.ser
     ],
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
+        { provide: 'ORIGIN_URL', useValue: location.origin},
         { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
         ProgressService,
         AuthService,
-        { provide: 'ORIGIN_URL', useValue: location.origin }
+        AuthGuardService,
+        AdminAuthGuardService
     ]
 })
 export class AppModule {

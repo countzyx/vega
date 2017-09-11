@@ -1,4 +1,5 @@
-import { Injectable }      from '@angular/core';
+import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
 // Avoid name not found warnings
@@ -12,7 +13,7 @@ export class AuthService {
   // Configure Auth0
   lock = new Auth0Lock('0nQ3hhqaibNtvPXGIvaaDZLJC5p5Du00', 'vega-prj.auth0.com', {});
 
-  constructor() {    
+  constructor(private router: Router) {    
     this.readUserFromLocalStorage();
 
     this.lock.on("authenticated", (authResult) => this.onUserAuthenticated(authResult));
@@ -65,5 +66,6 @@ export class AuthService {
     localStorage.removeItem('profile');
     this.profile = null;
     this.roles = [];
+    this.router.navigate(['/vehicles']);
   }
 }
