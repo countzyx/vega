@@ -1,8 +1,9 @@
+import { Auth0Lock } from 'auth0-lock';
 import { Injectable }      from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 
 // Avoid name not found warnings
-import Auth0Lock from 'auth0-lock';
+declare var Auth0Lock: any;
 
 @Injectable()
 export class Auth {
@@ -14,7 +15,7 @@ export class Auth {
 
   constructor() {    
     this.lock.on("authenticated", (authResult) => {
-      localStorage.setItem('id_token', authResult.idToken);
+      localStorage.setItem('token', authResult.idToken);
     });
   }
 
@@ -26,11 +27,11 @@ export class Auth {
   public authenticated() {
     // Check if there's an unexpired JWT
     // This searches for an item in localStorage with key == 'token'
-    return tokenNotExpired('id_token');
+    return tokenNotExpired('token');
   }
 
   public logout() {
     // Remove token from localStorage
-    localStorage.removeItem('id_token');
+    localStorage.removeItem('token');
   }
 }
