@@ -9,6 +9,7 @@ import { ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ChartModule } from 'angular2-chartjs';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { sharedConfig } from './app.module.shared';
@@ -21,6 +22,7 @@ import { AdminAuthGuardService } from './services/admin-auth-guard.service';
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        ChartModule,
         FormsModule,
         HttpModule,
         ...sharedConfig.imports
