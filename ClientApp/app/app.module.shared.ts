@@ -1,3 +1,4 @@
+import { AdminComponent } from './components/admin/admin.component';
 import { AuthService } from './services/auth.service';
 import { PhotoService } from './services/photo.service';
 import { VehicleViewComponent } from './components/vehicle-view/vehicle-view.component';
@@ -12,9 +13,6 @@ import { VehicleService } from './services/vehicle.service';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
-import { HomeComponent } from './components/home/home.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
-import { CounterComponent } from './components/counter/counter.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 
 Raven.config('https://5dcd4dc28a554703a9302f69e403d7a4@sentry.io/210557').install();
@@ -24,13 +22,11 @@ export const sharedConfig: NgModule = {
     declarations: [
         AppComponent,
         NavMenuComponent,
-        CounterComponent,
-        FetchDataComponent,
-        HomeComponent,
         VehicleFormComponent,
         VehicleListComponent,
         VehicleViewComponent,
-        PaginationComponent
+        PaginationComponent,
+        AdminComponent
     ],
     imports: [
         FormsModule,
@@ -41,9 +37,7 @@ export const sharedConfig: NgModule = {
             { path: 'vehicles/edit/:id', component: VehicleFormComponent },
             { path: 'vehicles/:id', component: VehicleViewComponent },
             { path: 'vehicles', component: VehicleListComponent },
-            { path: 'home', component: HomeComponent },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
+            { path: 'admin', component: AdminComponent },
             { path: '**', redirectTo: 'vehicles' }
         ])
     ],

@@ -13,33 +13,28 @@
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a (click)="authService.login()" *ngIf="!authService.authenticated()">
-                        <span class='glyphicon glyphicon-user'></span> Login
+                    <a href="https://vega-prj.auth0.com/login?client=0nQ3hhqaibNtvPXGIvaaDZLJC5p5Du00" *ngIf="!authService.authenticated()">
+                        <span class='fa fa-sign-in'></span> Login
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
                     <a (click)="authService.logout()" *ngIf="authService.authenticated()">
-                        <span class='glyphicon glyphicon-user'></span> Logout
+                        <span class='fa fa-sign-out'></span> Logout
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
                     <a [routerLink]="['/vehicles']">
-                        <span class='glyphicon glyphicon-home'></span> Vehicles
+                        <span class='fa fa-car'></span> Vehicles
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/vehicles/new']">
-                        <span class='glyphicon glyphicon-plus'></span> New Vehicle
+                        <span class='fa fa-plus'></span> New Vehicle
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/counter']">
-                        <span class='glyphicon glyphicon-education'></span> Counter
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/fetch-data']">
-                        <span class='glyphicon glyphicon-th-list'></span> Fetch data
+                <li [routerLinkActive]="['link-active']" *ngIf="authService.isInRole('Admin')">
+                    <a [routerLink]="['/admin']">
+                        <span class='fa fa-superpowers'></span> Admin
                     </a>
                 </li>
             </ul>
