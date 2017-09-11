@@ -1,4 +1,3 @@
-import { BrowserXhrWithProgress, ProgressService } from './services/progress.service';
 import { BrowserXhr } from '@angular/http';
 import { AppErrorHandler } from './app.error-handler';
 import { ErrorHandler } from '@angular/core';
@@ -8,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { sharedConfig } from './app.module.shared';
+import { ProgressService, BrowserXhrWithProgress } from "./services/progress.service";
 
 @NgModule({
     bootstrap: sharedConfig.bootstrap,

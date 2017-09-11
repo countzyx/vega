@@ -49,5 +49,5 @@ export const sharedConfig: NgModule = {
     providers: [
         VehicleService,
         PhotoService
-    ],
+    ]
 };
