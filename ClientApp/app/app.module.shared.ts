@@ -17,6 +17,7 @@ import { VehicleService } from './services/vehicle.service';
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
+import { AUTH_PROVIDERS } from "angular2-jwt/angular2-jwt";
 
 Raven.config('https://5dcd4dc28a554703a9302f69e403d7a4@sentry.io/210557').install();
 
@@ -45,6 +46,7 @@ export const sharedConfig: NgModule = {
         ])
     ],
     providers: [
+        AUTH_PROVIDERS,
         AuthService,
         AuthGuardService,
         AdminAuthGuardService,

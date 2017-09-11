@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { KeyValuePair } from './../../models/key.value.pair';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -10,8 +11,7 @@ import * as Raven from 'raven-js';
 @Component({
   selector: 'app-vehicle-list',
   templateUrl: './vehicle-list.component.html',
-  styleUrls: ['./vehicle-list.component.css'],
-  providers: [VehicleService]
+  styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
   private readonly PAGE_SIZE = 3;
@@ -29,6 +29,7 @@ export class VehicleListComponent implements OnInit {
   ];
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     private vehicleService: VehicleService
   ) { }

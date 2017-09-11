@@ -5,12 +5,13 @@ import { ToastyService } from 'ng2-toasty';
 import { VehicleService } from './../../services/vehicle.service';
 import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   templateUrl: 'vehicle-view.component.html',
   providers: [
-    PhotoService,
-    VehicleService
+    { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
+    ProgressService
   ]
 })
 export class VehicleViewComponent implements OnInit {
@@ -21,13 +22,15 @@ export class VehicleViewComponent implements OnInit {
   progress: any;
 
   constructor(
-    private zone: NgZone,
+    private authService: AuthService,
+    private photoService: PhotoService,
+    private progressService: ProgressService,
     private route: ActivatedRoute, 
     private router: Router,
     private toasty: ToastyService,
-    private progressService: ProgressService,
-    private photoService: PhotoService,
-    private vehicleService: VehicleService) { 
+    private vehicleService: VehicleService,
+    private zone: NgZone
+  ) { 
 
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];

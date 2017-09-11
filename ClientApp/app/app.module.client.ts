@@ -1,3 +1,6 @@
+import { AUTH_PROVIDERS } from 'angular2-jwt/angular2-jwt';
+import { VehicleService } from './services/vehicle.service';
+import { PhotoService } from './services/photo.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { BrowserXhr } from '@angular/http';
@@ -25,11 +28,12 @@ import { AdminAuthGuardService } from './services/admin-auth-guard.service';
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
         { provide: 'ORIGIN_URL', useValue: location.origin},
-        { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
-        ProgressService,
+        AUTH_PROVIDERS,
         AuthService,
         AuthGuardService,
-        AdminAuthGuardService
+        AdminAuthGuardService,
+        PhotoService,
+        VehicleService
     ]
 })
 export class AppModule {

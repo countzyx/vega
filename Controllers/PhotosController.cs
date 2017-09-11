@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,7 @@ namespace vega11.Controllers {
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Upload(int vehicleId, IFormFile file) {
             var vehicle = await vehicleRepo.GetVehicle(vehicleId, includeRelated: false);
             if (vehicle == null)

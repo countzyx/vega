@@ -28,7 +28,7 @@
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/vehicles/new']">
+                    <a [routerLink]="['/vehicles/new']" *ngIf="authService.authenticated()">
                         <span class='fa fa-plus'></span> New Vehicle
                     </a>
                 </li>
