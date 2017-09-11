@@ -1,3 +1,4 @@
+import { ProgressService } from './../../services/progress.service';
 import { PhotoService } from './../../services/photo.service';
 import { VehicleService } from './../../services/vehicle.service';
 import { ToastyService } from 'ng2-toasty';
@@ -11,7 +12,10 @@ import * as Raven from 'raven-js';
   selector: 'app-vehicle-view',
   templateUrl: './vehicle-view.component.html',
   styleUrls: ['./vehicle-view.component.css'],
-  providers: [VehicleService, PhotoService]
+  providers: [VehicleService, 
+    PhotoService,
+    ProgressService
+  ]
 })
 export class VehicleViewComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
@@ -25,7 +29,8 @@ export class VehicleViewComponent implements OnInit {
     private router: Router,
     private toastyService: ToastyService,
     private vehicleService: VehicleService,
-    private photoService: PhotoService
+    private photoService: PhotoService,
+    private progressService: ProgressService
   ) {
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];
@@ -70,6 +75,7 @@ export class VehicleViewComponent implements OnInit {
   
   uploadPhoto() {
     var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    this.progressService.uploadProgress.subscribe(p => console.log(p.status));
     this.photoService.upload(this.vehicleId, nativeElement.files[0])
       .subscribe(p => {
         this.photos.push(p);

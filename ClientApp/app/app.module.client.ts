@@ -1,3 +1,5 @@
+import { BrowserXhrWithProgress, ProgressService } from './services/progress.service';
+import { BrowserXhr } from '@angular/http';
 import { AppErrorHandler } from './app.error-handler';
 import { ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,6 +21,8 @@ import { sharedConfig } from './app.module.shared';
     ],
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
+        { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
+        ProgressService,
         { provide: 'ORIGIN_URL', useValue: location.origin }
     ]
 })
