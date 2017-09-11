@@ -1,3 +1,4 @@
+import { PhotoService } from './services/photo.service';
 import { VehicleViewComponent } from './components/vehicle-view/vehicle-view.component';
 import { PaginationComponent } from './components/shared/pagination.component';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
@@ -42,10 +43,11 @@ export const sharedConfig: NgModule = {
             { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
-            { path: '**', redirectTo: 'home' }
+            { path: '**', redirectTo: 'vehicles' }
         ])
     ],
     providers: [
-        VehicleService
+        VehicleService,
+        PhotoService
     ],
 };

@@ -1,15 +1,17 @@
+import { PhotoService } from './../../services/photo.service';
 import { VehicleService } from './../../services/vehicle.service';
 import { ToastyService } from 'ng2-toasty';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-vehicle-view',
   templateUrl: './vehicle-view.component.html',
   styleUrls: ['./vehicle-view.component.css'],
-  providers: [VehicleService]
+  providers: [VehicleService, PhotoService]
 })
 export class VehicleViewComponent implements OnInit {
+  @ViewChild('fileInput') fileInput: ElementRef;
   vehicle: any;
   vehicleId: number;
 
@@ -17,7 +19,8 @@ export class VehicleViewComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastyService: ToastyService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private photoService: PhotoService
   ) {
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];
@@ -53,5 +56,12 @@ export class VehicleViewComponent implements OnInit {
         });
       });
     }
-  }  
+  }
+  
+  
+  uploadPhoto() {
+    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    this.photoService.upload(this.vehicleId, nativeElement.files[0])
+      .subscribe(x => console.log(x));
+  }
 }
