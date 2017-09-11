@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using vega11.Controllers;
 using vega11.Core;
 using vega11.Core.Models;
 using vega11.Persistence;
@@ -41,6 +42,9 @@ namespace WebApplicationBasic
             
             services.AddAutoMapper();
             services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddAuthorization(options => {
+                options.AddPolicy(Policies.RequireAdminRole, policy => policy.RequireClaim("https://vega.com/roles", "Admin"));
+            });
 
             // Add framework services.
             services.AddMvc();
