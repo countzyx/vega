@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -14,24 +15,32 @@ namespace vega11.Controllers {
     [Route("/api/vehicles/{vehicleId}/photos")]
     public class PhotosController : Controller {
         private readonly IHostingEnvironment host;
-        private readonly IVehicleRepository repository;
+        private readonly IVehicleRepository vehicleRepo;
         private readonly IUnitOfWork unitOfWork;
         private readonly PhotoSettings PhotoSettings;
         private readonly IMapper mapper;
+        private readonly IPhotoRepository photoRepo;
 
-        public PhotosController(IHostingEnvironment host, IVehicleRepository repository, 
-            IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options) {
+        public PhotosController(IHostingEnvironment host, IVehicleRepository vehicleRepo,
+            IPhotoRepository photoRepository, IUnitOfWork unitOfWork,
+            IMapper mapper, IOptionsSnapshot<PhotoSettings> options) {
+            this.photoRepo = photoRepository;
             this.PhotoSettings = options.Value;
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.host = host;
-            this.repository = repository;
+            this.vehicleRepo = vehicleRepo;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<PhotoResource>> GetPhotos(int vehicleId) {
+            var photos = await photoRepo.GetPhotos(vehicleId);
+            return mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoResource>>(photos);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Upload(int vehicleId, IFormFile file) {
-            var vehicle = await repository.GetVehicle(vehicleId, includeRelated: false);
+            var vehicle = await vehicleRepo.GetVehicle(vehicleId, includeRelated: false);
             if (vehicle == null)
                 return NotFound();
 
@@ -43,10 +52,10 @@ namespace vega11.Controllers {
 
             if (file.Length > PhotoSettings.MaxBytes)
                 return BadRequest("File too large");
-            
+
             var fileExt = Path.GetExtension(file.FileName).ToLower();
             if (!PhotoSettings.IsSupportedFileExtension(fileExt))
-                return BadRequest("File must be only of accepted types - " 
+                return BadRequest("File must be only of accepted types - "
                     + String.Join(", ", PhotoSettings.AcceptedFileTypes));
 
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");

@@ -3,6 +3,9 @@ import { VehicleService } from './../../services/vehicle.service';
 import { ToastyService } from 'ng2-toasty';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/Observable/forkJoin';
+import * as Raven from 'raven-js';
 
 @Component({
   selector: 'app-vehicle-view',
@@ -12,8 +15,10 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 })
 export class VehicleViewComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
+  photos: any[];
   vehicle: any;
   vehicleId: number;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -32,15 +37,19 @@ export class VehicleViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.vehicleService.getVehicle(this.vehicleId).subscribe(
-      v => this.vehicle = v,
-      err => {
-        if (err.status == 404) {
-          this.router.navigate(['/vehicles']);
-          return;
-        }
-      }
-    );
+    var sources = [
+      this.vehicleService.getVehicle(this.vehicleId),
+      this.photoService.getPhotos(this.vehicleId)
+    ];
+
+    Observable.forkJoin(sources).subscribe(data => {
+      this.vehicle = data[0];
+      this.photos = data[1];
+    }, err => {
+      Raven.captureException(err.originalError || err);
+      if (err.status == 404)
+        this.router.navigate(['/vehicles']);
+    });
   }
 
   delete() {
@@ -62,6 +71,8 @@ export class VehicleViewComponent implements OnInit {
   uploadPhoto() {
     var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
     this.photoService.upload(this.vehicleId, nativeElement.files[0])
-      .subscribe(x => console.log(x));
+      .subscribe(p => {
+        this.photos.push(p);
+      });
   }
 }

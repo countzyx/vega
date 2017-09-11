@@ -8,6 +8,7 @@ import { ToastyService } from "ng2-toasty";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/Observable/forkJoin';
+import * as Raven from 'raven-js';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -61,6 +62,7 @@ export class VehicleFormComponent implements OnInit {
         this.populateModels();
       }
     }, err => {
+      Raven.captureException(err.originalError || err);
       if (err.status == 404)
         this.router.navigate(['/vehicles']);
     });

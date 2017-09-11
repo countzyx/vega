@@ -5,6 +5,7 @@ import 'rxjs/add/Observable/forkJoin';
 import { VehicleService } from './../../services/vehicle.service';
 import { Vehicle } from './../../models/vehicle';
 import { Component, OnInit } from '@angular/core';
+import * as Raven from 'raven-js';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -42,6 +43,7 @@ export class VehicleListComponent implements OnInit {
       this.makes = data[0];
       this.queryResult = data[1];
     }, err => {
+      Raven.captureException(err.originalError || err);
       if (err.status == 404)
         this.router.navigate(['/vehicles']);
     });
