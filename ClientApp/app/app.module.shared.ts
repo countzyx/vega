@@ -1,3 +1,4 @@
+import { VehicleViewComponent } from './components/vehicle-view/vehicle-view.component';
 import { PaginationComponent } from './components/shared/pagination.component';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +27,7 @@ export const sharedConfig: NgModule = {
         HomeComponent,
         VehicleFormComponent,
         VehicleListComponent,
+        VehicleViewComponent,
         PaginationComponent
     ],
     imports: [
@@ -34,7 +36,8 @@ export const sharedConfig: NgModule = {
         RouterModule.forRoot([
             { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
             { path: 'vehicles/new', component: VehicleFormComponent },
-            { path: 'vehicles/:id', component: VehicleFormComponent },
+            { path: 'vehicles/edit/:id', component: VehicleFormComponent },
+            { path: 'vehicles/:id', component: VehicleViewComponent },
             { path: 'vehicles', component: VehicleListComponent },
             { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
