@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { PhotoService } from './services/photo.service';
 import { VehicleViewComponent } from './components/vehicle-view/vehicle-view.component';
 import { PaginationComponent } from './components/shared/pagination.component';
@@ -47,6 +48,7 @@ export const sharedConfig: NgModule = {
         ])
     ],
     providers: [
+        AuthService,
         VehicleService,
         PhotoService
     ]

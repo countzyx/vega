@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { BrowserXhr } from '@angular/http';
 import { AppErrorHandler } from './app.error-handler';
 import { ErrorHandler } from '@angular/core';
@@ -23,6 +24,7 @@ import { ProgressService, BrowserXhrWithProgress } from "./services/progress.ser
         { provide: ErrorHandler, useClass: AppErrorHandler },
         { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
         ProgressService,
+        AuthService,
         { provide: 'ORIGIN_URL', useValue: location.origin }
     ]
 })
